@@ -1,0 +1,33 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.room {
+    width: 500px;
+    height: 750px;
+    margin: 0 auto;
+}
+
+.room-head {
+    height: 10%;
+}
+
+.room-body {
+    height: 70%;
+}
+
+.room-input {
+    height: 20%;
+}
+
+.send {
+    display: inline-block;
+    background-color: black;
+    color: white;
+}
+
+.send:hover {
+    cursor: pointer;
+    background-color: red;
+}

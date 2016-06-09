@@ -1,0 +1,21 @@
+{
+  "name": "chat",
+  "description": "基于 socket.io 的聊天室",
+  "main": "index.js",
+  "authors": [
+    "chen"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "angular": "^1.5.5"
+  }
+}
