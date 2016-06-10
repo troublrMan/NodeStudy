@@ -1,0 +1,14 @@
+{
+  "name": "async-sequence",
+  "version": "1.0.0",
+  "description": "异步逻辑的顺序化",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "chen",
+  "license": "ISC",
+  "devDependencies": {
+    "should": "^9.0.2"
+  }
+}
