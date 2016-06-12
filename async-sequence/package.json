@@ -10,5 +10,9 @@
   "license": "ISC",
   "devDependencies": {
     "should": "^9.0.2"
+  },
+  "dependencies": {
+    "cheerio": "^0.21.0",
+    "superagent": "^2.0.0"
   }
 }
