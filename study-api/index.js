@@ -23,6 +23,6 @@ var file = new File(dir);
 
 // netuse.server();
 
-childProcessUse.copy('E:/test/沉睡的商人.rar', 'E:/test/nodetest/test.rar', function() {
-    console.log('ok..');
-})
+// childProcessUse.copy('E:/test/沉睡的商人.rar', 'E:/test/nodetest/test.rar', function() {
+//     console.log('ok..');
+// })
