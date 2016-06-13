@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "async": "^2.0.0-rc.5",
-    "ioredis": "^2.0.1"
+    "ioredis": "^2.0.1",
+    "moment": "^2.13.0"
   }
 }

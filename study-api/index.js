@@ -2,6 +2,7 @@ var File = require('./fileUse');
 var buffer = require('./bufferUse');
 var netuse = require('./netuse');
 var childProcessUse = require('./childProcessUse');
+var asyncUse = require('./asyncUse');
 var path = require('path');
 
 var dir = path.normalize('E:/test/nodetest/newforder/');
