@@ -216,3 +216,32 @@ async.concatSeries(arrs_concatSeries, function(item, callback) {
     utils.log('concat err: ', err);
     utils.log('concat result: ', result);
 });
+
+/**
+ * detect 用于取得集合中满足条件的第一个元素
+ * detect和detectSeries 并行与串行
+ */
+arr_detect = [1,2,3,4,5,6];
+async.detect(arr_detect, function(item, callback) {
+    utils.log('detect enter: ', item);
+    utils.inc(item, function(err, result) {
+        console.log(result);
+        callback(result%2 === 0);
+    });
+}, function(result) {
+    utils.log('detect result: ', result);
+});
+
+/**
+ * 按顺序依次执行一组函数。每个函数产生的值，都将传给下一个。
+ * 如果中途出错，后面的函数将不会被执行。错误信息将传给waterfall最终的callback。之前产生的结果被丢弃。
+ * async.waterfall(tasks, [callback]) 该函数不支持json格式的tasks
+ */
+async.waterfall([
+    function(cb){ utils.log('waterfall_A: ', 'start'); cb(null, 3);},
+    function(n, cb){ utils.log('waterfall_B: ', n); utils.inc(n, cb);},
+    function(n, cb){ utils.log('waterfall_C: ', n); utils.fire(n*n, cb);},
+], function(err, result) {
+   utils.log('waterfall err: ', err);
+   utils.log('waterfall result: ', result);
+});
