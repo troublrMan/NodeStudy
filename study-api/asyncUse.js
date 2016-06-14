@@ -190,3 +190,29 @@ abc('start', function(err, result) {
     utils.log('compose err: ', err);
     utils.log('compose result: ', result);
 });
+
+/**
+ * concat 将多个异步操作的结果合并成一个数组
+ * concat(arr, iterator(item,callback(err,result)), callback(err,result))
+ * 使用场景：对不同的数据源，进行同一个异步操作，把所有结果合并成一个数组
+ */
+//注：如果中途出错，则把错误以及已经完成的操作的结果交给最后callback。未执行完的则忽略
+var arrs_concat = ['concatA', 'concatB', 'concatC'];
+async.concat(arrs_concat, function(item, callback){
+    setTimeout(function() {
+        callback(null, item);
+    }, 1000);
+}, function(err, result) {
+    utils.log('concat err: ', err);
+    utils.log('concat result: ', result);
+});
+//concat 与 concatSeries 唯一的区别是concat是并行的，而concatSeries是串行的
+var arrs_concatSeries = ['concatSeriesA', 'concatSeriesB', 'concatSeriesC'];
+async.concatSeries(arrs_concatSeries, function(item, callback) {
+    setTimeout(function() {
+        callback(null, item);
+    }, 1000);
+}, function(err, result) {
+    utils.log('concat err: ', err);
+    utils.log('concat result: ', result);
+});
