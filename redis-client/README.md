@@ -1,7 +1,8 @@
-### 学习某雷[redis客户端](https://cnodejs.org/topic/573b5482b507f69e1dd89fcb)编写
+### 学习某雷 [redis客户端](https://cnodejs.org/topic/573b5482b507f69e1dd89fcb) 编写
 
 #### redis 学习
-##### Redis 配置
+---
+Redis 配置
 > 启用配置文件，在启动 redis-server 时将配置文件路径作为参数 redis-server xxx/redis.conf
 
 > 通过启动参数修改部分配置 redis-server xxx/redis.conf --loglevel warning
@@ -10,10 +11,12 @@
 
 > 命令获取配置信息 `config get loglevel`
 
-##### shutdown  会先断开所有客户端连接，然后根据配置执行持久化，最后完成退出（与 kill Redis进程的pid 相比，shutdown 命令更加稳妥，防止内存数据
+---
+__shutdown__  会先断开所有客户端连接，然后根据配置执行持久化，最后完成退出（与 kill Redis进程的pid 相比，shutdown 命令更加稳妥，防止内存数据
 同步到硬盘中强制关闭的数据丢失）
 
-##### 使用 redis-cli 有两种使用命令的方式，一种是进入交互模式使用命令，另一种是使用 redis-cli xxx 的形式
+---
+使用 __redis-cli__ 有两种使用命令的方式，一种是进入交互模式使用命令，另一种是使用 redis-cli xxx 的形式
 > redis-cli 默认连接本机（127.0.0.1）的 6379端口，完整的命令 `redis-cli -h 127.0.0.1 -p 6379`
 
 > 测试 redis-cli 的连接， 使用 __ping__ 命令，连接正常会受到回复 pong 
