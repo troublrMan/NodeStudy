@@ -77,3 +77,25 @@ __shutdown__  会先断开所有客户端连接，然后根据配置执行持久
 > __linsert__ 命令 向列表中插入元素，`linsert list before ch test`(在list列表中‘ch’值之前添加一个元素‘test’); `linsert list after en peng`
 
 > __rpoplpush__ 命令 将元素从一个列表转移到另一个列表，`rpoplpush list list2`(将列表list中最后一个元素pop，并将这个值lpush入列表list2中)
+
+> __sadd/srem__ 命令 增加/删除集合元素，`sadd letters a c`(向letter集合添加两个元素a、c，返回值是添加元素成功的数量)
+
+> __smembers__ 命令 获取集合中的所有元素，`smembers letters`
+
+> __sismember__ 命令 判断元素是否在集合中，`sismember letters a`(判断'a'是否在letters集合中，返回值1代表在，0表示不在)
+
+> __sdiff__ 命令 集合取差集，`sdiff letters letter2`(letters集合和letter2集合作差集)
+
+> __sinter__ 命令 集合取交集，`sinter letters letter2`
+
+> __sunion__ 命令 集合取并集，`sunion letters letter2`
+
+> __scard__ 命令 获取集合元素个数，`scard letters`
+
+> __sdiffstore/sinterstore/sunionstore__ 命令 差/并/交集后结果存储在目标集合中，`sunionstore letter3 letters letter2`(letters集合和letter2
+集合作并集，结果存入letter3集合中)
+
+> __srandmember__ 命令 随机获取集合中的元素，`srandmember letters 2`(随机从letters集合中获取两个元素，`srandmember letters`默认获取一个元素，
+count为正数时元素不重复，count为负数时这些元素可能包括重复的)
+
+> __spop__ 命令 从集合中弹出一个元素（因为是无序集合，所以随机），`spop letters`
