@@ -1,8 +1,9 @@
-### 学习某雷 [redis客户端](https://cnodejs.org/topic/573b5482b507f69e1dd89fcb) 编写
+#  学习某雷 [redis客户端](https://cnodejs.org/topic/573b5482b507f69e1dd89fcb) 编写
 
-#### redis 学习
----
-Redis 配置
+## redis 学习
+
+### Redis 配置
+
 > 启用配置文件，在启动 redis-server 时将配置文件路径作为参数 redis-server xxx/redis.conf
 
 > 通过启动参数修改部分配置 redis-server xxx/redis.conf --loglevel warning
@@ -11,12 +12,13 @@ Redis 配置
 
 > 命令获取配置信息 `config get loglevel`
 
----
-__shutdown__  会先断开所有客户端连接，然后根据配置执行持久化，最后完成退出（与 kill Redis进程的pid 相比，shutdown 命令更加稳妥，防止内存数据
+### Redis 常用命令
+
+使用 __redis-cli__ 有两种使用命令的方式，一种是进入交互模式使用命令，另一种是使用 redis-cli xxx 的形式
+
+> __shutdown__  会先断开所有客户端连接，然后根据配置执行持久化，最后完成退出（与 kill Redis进程的pid 相比，shutdown 命令更加稳妥，防止内存数据
 同步到硬盘中强制关闭的数据丢失）
 
----
-使用 __redis-cli__ 有两种使用命令的方式，一种是进入交互模式使用命令，另一种是使用 redis-cli xxx 的形式
 > redis-cli 默认连接本机（127.0.0.1）的 6379端口，完整的命令 `redis-cli -h 127.0.0.1 -p 6379`
 
 > 测试 redis-cli 的连接， 使用 __ping__ 命令，连接正常会受到回复 pong 
@@ -99,3 +101,42 @@ __shutdown__  会先断开所有客户端连接，然后根据配置执行持久
 count为正数时元素不重复，count为负数时这些元素可能包括重复的)
 
 > __spop__ 命令 从集合中弹出一个元素（因为是无序集合，所以随机），`spop letters`
+
+> __zadd__ 命令 向有序集合添加元素，`zadd scoreboard 89 tom 67 peter 80 david`
+
+> __zscore__ 命令 从有序集合获取元素的分数， `zscore scoreboard tom`
+
+> __zrange__ 命令 获得排名在某个范围的元素列表，`zrange scoreboard 0 -1`; `zrange scoreboard 0 -1 withscores`(查看列表并显示分数)
+
+> __zrevrange__ 命令 与 __zrange__ 的区别是 zrange从小到大排列，zrevrange从大到小排列
+
+> __zrangebyscore__ 命令 获取指定分数范围的元素，`zrangebyscore scoreboard 70 (100 limit 1 3` (获取70到100之间的从第二个开始前三个，
+包含70但不包含100；__zrevrangebyscore__ 唯一的区别从大到小排列)
+
+> __zincrby__ 命令 增加某个元素的分数，`zincrby scoreboard 8 tom`
+
+> __zcard__ 命令 获得有序集合中元素的数量，`zcard scoreboard`
+
+> __zcount__ 命令 查询有序集合指定区间范围元素的数量，`zcount scoreboard 70 100`
+
+> __zrem__  命令 删除一个或多个元素，`zrem scoreboard tom peter`
+
+> __zremrangebyrank__ 命令 按照排名范围删除元素，`zremrangebyrank scoreboard 0 1`(删除前两个元素)
+
+> __zrank__ 命令 获取元素的排名，`zrank scoreboard tom` (__zrevrank__统计从大到小的排名)
+
+> __zinterstore__ 命令 计算有序集合的交集，`zinterstore zset3 2 zset1 zset2`
+
+### redis 事务
+
+使用 `multi` 命令表示下面发送的命令属于同一个事务，使用 `exec` 命令告知redis执行事务队列中的所有命令
+
+```
+multi
+sadd user1 2
+sadd user2 1
+exec
+```
+* 事务保证了所有命令要么都执行，要么都不执行
+* 事务保证了一个事务内的命令依次执行而不被其他命令插入
+* 事务中如果有命令执行出错，分为两种情况。语法错误，所有的命令都不会执行；运行错误，事务里的其他命令依然会继续执行（包括命令执行出错之后的命令）
