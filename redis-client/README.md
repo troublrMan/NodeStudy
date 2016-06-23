@@ -150,7 +150,8 @@ set key 2
 multi
 set key 3
 exec
-get key   //返回值 2，watch后、事务执行前修改了key值为2，因事务没有执行（经测试，在事务前watch的键值被修改，本次事务全部不执行）
+get key   //返回值 2，watch后、事务执行前修改了key值为2，因此事务没有执行
+          //经测试，在事务前watch的键值被修改，本次事务全部不执行
 ```
 取消对键值的 watch
 
@@ -175,3 +176,27 @@ ttl foo    // 返回剩余时间，当达到20秒时，foo键会被删除，这�
 * expire 可以对键再次设置一个新的生存时间
 
 __如果使用 watch 监控一个拥有生存时间的键，该键时间到期自动删除并不会被 watch 命令认为该键被改变__
+
+### 排序
+
+有序集合自带排序。__sort__ 命令能够解决其他数据类型排序问题
+
+```
+lpush mylist  c b d e B C D
+sort mylist alpha    //按照 alpha 字典排序
+```
+__by__ 参考键，如果提供了 by，sort命令将不再依据元素自身的值进行排序，依据参考键来排序
+
+```
+lpush mylist 2 1 3
+set itemscore:1 -10
+set itemscore:2 100
+set itemscore:3 50
+sort mylist by itemscore:* desc    \\返回 2 3 1
+```
+_如果用 hash 实现person实例的缓存，如何设计 hash 能实现person.*排序_
+
+sort命令的get参数，使sort命令返回结果不再是元素自身的值，而是get参数指定的键值
+get # 会返回元素本身的值
+ 
+sort命令的store参数，保存排序结果
