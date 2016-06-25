@@ -1,6 +1,6 @@
 #  学习某雷 [redis客户端](https://cnodejs.org/topic/573b5482b507f69e1dd89fcb) 编写
 
-## redis 学习
+## redis 学习笔记
 
 ### Redis 配置
 
@@ -192,7 +192,7 @@ lpush mylist 2 1 3
 set itemscore:1 -10
 set itemscore:2 100
 set itemscore:3 50
-sort mylist by itemscore:* desc    \\返回 2 3 1
+sort mylist by itemscore:* desc    //返回 2 3 1
 ```
 _如果用 hash 实现person实例的缓存，如何设计 hash 能实现person.*排序_
 
@@ -200,3 +200,40 @@ sort命令的get参数，使sort命令返回结果不再是元素自身的值，
 get # 会返回元素本身的值
  
 sort命令的store参数，保存排序结果
+
+### 任务队列
+使用redis的列表做任务队列，可以使用 __brpop/blpop__ 命令，当列表中没有元素时会一直阻塞连接，知道有新的元素加入时执行右出栈
+```
+redis A> brpop queue 0    //这里设置超时时间为0，表示不限制等待时间
+//如果queue列表中没有元素，这时候 redis A 会进入阻塞状态
+redus B> lpush queue task    //再起一个redis客服端B，执行该命令
+//执行后，redis A 马上返回结果
+```
+
+优先级队列，__brpop/blpop__ 同样支持优先级
+```
+//初始状态 queue1 queue2 queue3 的类型都是none
+lpush queue2 task2
+lpush queue3 task3
+brpop queue1 queue2 queue3 0
+//返回 1）“queue2” 2)"task2"
+```
+
+发布订阅模式
+订阅频道的命令是 __subscribe__，可以同时订阅多个频道
+发布消息的命令是 __publish__
+取消订阅 __unsubscribe__，使用 unsubscribe channel可以取消订阅指的频道，如果不指定则会取消订阅所有频道
+```
+redis A> subscribe channel1.1 channel1.2 channel1.3
+redis B> publish channel1.1 hi
+redis B> publish channel1.3 hahaha
+//阻塞的（进入了订阅状态）redis A 接收消息
+```
+
+除了可以使用 __subscribe__ 命令订阅指定名称的频道外，还可以使用 __psubscribe__ 命令订阅指定的规则
+__punsubscribe__ 和 unsubscirbe的作用相同，使用场合不同，不会相互影响
+```
+redis A> psubscribe channel1.*?
+redis B> publish channel1.1 hi
+...
+```
