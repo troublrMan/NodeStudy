@@ -1,0 +1,1 @@
+#### a small node script sync mysql to mongodb 

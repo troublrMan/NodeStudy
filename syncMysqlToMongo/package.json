@@ -1,0 +1,20 @@
+{
+  "name": "syncmysqltomongo",
+  "version": "1.0.0",
+  "description": "sync mysql to mongo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nodejs",
+    "mysql",
+    "mongo"
+  ],
+  "author": "chen",
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^4.5.3",
+    "mysql": "^2.11.1"
+  }
+}
