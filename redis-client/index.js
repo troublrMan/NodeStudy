@@ -1,21 +1,25 @@
-'use strict'
+'use strict';
 
-var RedisProto = require('./lib/proto');
+const Redis = require('./lib/client');
+const client = new Redis();
 
-const proto = new RedisProto();
+client.sendCommand('GET a', (err, ret) => {
+  console.log('a=%s, err=%s', ret, err);
+});
 
-// 接受到数据
-proto.push('*3\r\n$3\r\nabc\r\n$3\r\naa1\r\n$1\r\na\r\n');
-proto.push('$6\r\n123456\r\n');
-proto.push('-ERR unknown command \'help\'\r\n');
-proto.push('+OK\r\n');
-proto.push(':5\r\n');
-proto.push('*3\r\n$5\r\nhe');
-proto.push('llo\r\n$-');
-proto.push('1\r\n$5\r\nworld\r\n');
+client.sendCommand('GET b', (err, ret) => {
+  console.log('b=%s, err=%s', ret, err);
+});
 
-while (proto.next()) {
-  // proto.next() 如果有解析出完整的结果则返回结果，没有则返回false
-  // 另外可以通过 proto.result 获得
-  console.log(proto.result);
-}
+client.sendCommand('KEYS *IO*', (err, ret) => {
+  console.log('KEYS *IO*=%s, err=%s', ret, err);
+});
+
+client.sendCommand('OOXX', (err, ret) => {
+  console.log('OOXX=%s, err=%s', ret, err);
+});
+
+client.sendCommand('SET a ' + Date.now())
+  .then(ret => console.log('success', ret))
+  .catch(err => console.log('error', err))
+  .then(() => client.end());
